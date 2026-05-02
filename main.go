@@ -1,17 +1,17 @@
 package main
 
 import (
-	"fmt"
+	"html/template"
 	"net/http"
 )
 
-func main() {
-	http.HandleFunc("/", handler)
+var tmpl = template.Must(template.ParseFiles("templates/index.html"))
 
-	fmt.Println("http://localhost:8080")
+func main() {
+	http.HandleFunc("/", indexHandler)
 	http.ListenAndServe(":8080", nil)
 }
 
-func handler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "Hello TODO App")
+func indexHandler(w http.ResponseWriter, r *http.Request) {
+	tmpl.Execute(w, nil)
 }
